@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="build/styles.css"/>
+    <link rel="stylesheet" href="../static/styles.css" @href="/static/bookmarks-manager/styles.css"/>
     <title>Bookmarks Manager</title>
 </head>
 <body class="bg-gray-100">
     <div class="px-4 py-10 w-full">
-        <img class="h-14 mx-auto text-indigo-900" src="images/logo.svg" alt="Bookmarks Manager">
+        <img class="h-14 mx-auto text-indigo-900" src="../static/images/logo.svg" @src="/static/bookmarks-manager/images/logo.svg"  alt="Bookmarks Manager">
     </div>
     <div class="w-full p-4 mb-4">
+        <form>
         <div class="flex justify-around">
-            <input type="text" placeholder="URL to save.." class="shadow appearance-none py-2 px-3 mb-2 leading-tight border rounded w-3/4 focus:outline-none">
-            <button type="button" class="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-3 mb-2 rounded w-1/5 focus:outline-none">Save</button>
+                <input type="text" name="url" id="url" placeholder="URL to save.." class="shadow appearance-none py-2 px-3 mb-2 leading-tight border rounded w-3/4 focus:outline-none">
+                <button type="submit" @formaction="/api/bookmarks-manager/add" formmethod="post" value="post" name="action" class="bg-indigo-600 hover:bg-indigo-900 text-white font-bold py-2 px-3 mb-2 rounded w-1/5 focus:outline-none">Save</button>
         </div>
+        </form>
     </div>
     <div class="w-full p-4 mb-4 shadow border-gray-600">
         <div class="flex justify-evenly bg-indigo-900 text-white font-bold p-3 border-gray-900">
@@ -22,20 +24,34 @@
             <div class="w-9/12 text-center">URL</div>
             <div class="w-1/12"></div>
         </div>
-        <div class="flex justify-evenly bg-indigo-100 text-indigo-800 p-2 border border-t-0 border-indigo-700">
-            <div class="w-1/12 text-center">1</div>
-            <div class="w-9/12 text-center">http://www.google.com</div>
-            <div class="w-1/12">
-                <svg class="h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-            </div>
-        </div>
-        <div class="flex justify-evenly bg-indigo-100 text-indigo-800 p-2 border border-t-0 border-indigo-700">
-            <div class="w-1/12 text-center">2</div>
-            <div class="w-9/12 text-center">http://www.yahoo.com</div>
-            <div class="w-1/12">
-                <svg class="h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-            </div>
-        </div>
+        <c:if test="(> count 0)">
+            <c:then>
+                <div iterate="bookmarks">
+                    <form method="post">
+                        <input type="hidden" name="id" id="id" lquery="(val _id)"/>
+                <div class="flex justify-evenly bg-indigo-100 text-indigo-800 p-2 border border-t-0 border-indigo-700">
+                    <div class="w-1/12 text-center" lquery="(text _id)"></div>
+                    <div class="w-9/12 text-center"><a href="#" lquery="(attr :href (format nil &quot;~a&quot; url))" target="_blank"><span lquery="(text url)"></span></a></div>
+                    <button class="w-1/12" type="submit" @formaction="/api/bookmarks-manager/delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="#434190" style="fill: none;" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z"/>
+                            <line x1="4" y1="7" x2="20" y2="7" />
+                            <line x1="10" y1="11" x2="10" y2="17" />
+                            <line x1="14" y1="11" x2="14" y2="17" />
+                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                        </svg>
+                    </button>
+                </div>
+                    </form>
+                </div>
+            </c:then>
+            <c:else>
+                <div class="flex justify-evenly bg-indigo-100 text-indigo-800 p-2 border border-t-0 border-indigo-700">
+                    <div class="w-full text-center">No Bookmarks to Show</div>
+                </div>
+            </c:else>
+        </c:if>
     </div>
 </body>
 </html>
