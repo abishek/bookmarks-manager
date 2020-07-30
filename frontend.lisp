@@ -1,8 +1,9 @@
 (in-package #:bookmarks-manager)
 
-(defun create-bookmark (url)
+(defun create-bookmark (url note)
   (let ((bookmark (dm:hull 'radiance-user::bookmarks)))
     (setf (dm:field bookmark "url") url
+          (dm:field bookmark "note") note
           (dm:field bookmark "updated") (get-universal-time))
     (dm:insert bookmark)))
 
@@ -18,8 +19,8 @@
     (l:info :message "listing ~a bookmarks" count)
     (r-clip:process T :bookmarks bookmarks :count count)))
 
-(define-api bookmarks-manager/add (url) ()
-  (create-bookmark url)
+(define-api bookmarks-manager/add (url note) ()
+  (create-bookmark url note)
   (redirect (make-uri :domains '("bookmarks-manager")
                       :path "home")))
 
