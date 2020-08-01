@@ -10,4 +10,3 @@
                             (updated (:integer 5))))
     (db:create 'bookmark-tags '((tag (:varchar 200))
                                 (bookmark :id)))))
-

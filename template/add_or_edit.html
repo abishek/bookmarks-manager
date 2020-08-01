@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if edit %}Bookmarks Manager - Editing Bookmark{% else %}Bookmarks Manager - Add Bookmark{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="w-full flex justify-center mt-4">
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/2" method="post">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="url">URL</label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="url" name="url" value="{{bookmark.url}}">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="note">Notes</label>
+            <textarea rows=6 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="note" name="note">{{bookmark.note}}</textarea>
+        </div>
+        <div class="flex items-center justify-center">
+            {% if edit %}
+            <input type="hidden" name="id" id="id" value="{{bookmark.id}}"/>
+            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" formaction="/api/bookmarks-manager/update">Update</button>
+            {% else %}
+            <button class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" formaction="/api/bookmarks-manager/add">Save</button>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

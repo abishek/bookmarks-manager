@@ -2,6 +2,7 @@
 
 (djula:add-template-directory (asdf:system-relative-pathname "bookmarks-manager" "template/"))
 (defparameter +list.html+ (djula:compile-template* "list.html"))
+(defparameter +add_or_edit.html+ (djula:compile-template* "add_or_edit.html"))
 
 (defun bookmark-to-list (bookmark)
   (let ((fields (cons "ID" (dm:fields bookmark))))
@@ -21,6 +22,13 @@
           (dm:field bookmark "updated") (get-universal-time))
     (dm:insert bookmark)))
 
+(defun update-bookmark (id url note)
+  (let ((bookmark (ensure-bookmark id)))
+    (setf (dm:field bookmark "url") url
+          (dm:field bookmark "note") note
+          (dm:field bookmark "updated") (get-universal-time))
+    (dm:save bookmark)))
+
 (defun ensure-bookmark (bookmark)
   (typecase bookmark
     (db:id (or (dm:get-one 'radiance-user::bookmarks (db:query (:= '_id bookmark)))
@@ -33,13 +41,26 @@
     (l:info :message "listing ~a bookmarks" count)
     (djula:render-template* +list.html+ nil :bookmarks (bookmarks-to-lists bookmarks) :count count)))
 
+(define-page add "bookmarks-manager/add" ()
+  (let ((bookmark (dm:hull 'radiance-user::bookmarks)))
+    (djula:render-template* +add_or_edit.html+ nil :bookmark (bookmark-to-list bookmark) :edit nil)))
+
+(define-page edit "bookmarks-manager/edit/(.*)" (:uri-groups (id)) ()
+  (let ((bookmark (ensure-bookmark id)))
+    (djula:render-template* +add_or_edit.html+ nil :bookmark (bookmark-to-list bookmark) :edit t)))
+
 (define-api bookmarks-manager/add (url note) ()
   (create-bookmark url note)
-  (redirect (make-uri :domains '("bookmarks-manager")
-                      :path "home")))
+  (redirect #@"bookmarks-manager/home"))
+
+(define-api bookmarks-manager/update (id url note) ()
+  (update-bookmark id url note)
+  (redirect #@"bookmarks-manager/home"))
 
 (define-api bookmarks-manager/delete (id) ()
   (let ((bookmark (ensure-bookmark id)))
     (dm:delete bookmark)
-    (redirect (make-uri :domains '("bookmarks-manager")
-                        :path "home"))))
+    (redirect #@"bookmarks-manager/home")))
+
+(define-page frontpage "bookmarks-manager/^$" ()
+  (redirect #@"bookmarks-manager/home"))

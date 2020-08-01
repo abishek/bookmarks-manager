@@ -11,7 +11,7 @@
 
         <link rel="stylesheet" href="/static/bookmarks-manager/styles.css"/>
     </head>
-    <body>
+    <body class="bg-gray-100">
         <!--[if lt IE 8]>
             <p class="browserupgrade">
             You are using an <strong>outdated</strong> browser. Please
@@ -19,6 +19,21 @@
             your experience.
             </p>
         <![endif]-->
+        <nav class="flex items-center justify-between flex-wrap bg-indigo-600 p-6">
+            <div class="flex items-center flex-shrink-0 text-white mr-6">
+                <img class="h-14 mx-auto text-indigo-900" src="/static/bookmarks-manager/images/logo.svg"  alt="Bookmarks Manager">
+            </div>
+            <div class="flex-grow"></div>
+            <div class="flex lg:flex lg:items-center lg:w-auto">
+                <div class="text-sm lg:flex-grow">
+                    <a href="/!/bookmarks-manager/home" class="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">Home</a>
+                </div>
+                <div class="text-sm lg:flex-grow">
+                    <a href="/!/bookmarks-manager/add" class="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">Add Bookmark</a>
+                </div>
+            </div>
+        </nav>
+
         {% block content %} {% endblock %}
     </body>
 </html>
