@@ -7,4 +7,4 @@
   :depends-on ((:interface :database)
                (:interface :logger)
                :r-data-model
-               :r-clip))
+               :djula))
