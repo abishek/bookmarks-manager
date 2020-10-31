@@ -1,9 +1,7 @@
 # bookmarks-manager
 A simple web based bookmarks capture tool.
 
-I am writing this as part of learning to use common-lisp more frequently. I am using the [Radiance framework](https://shirakumo.github.io/radiance/). At the moment, this captures a link and lets you delete the link. It doesn't handle any authentication or cannot be deployed for a multi-user scenario. I hope it gives an alternate example on how to use the framework to build apps. I have followed the example from the tutorial available [here](https://github.com/Shirakumo/radiance-tutorial/blob/master/Part%200.md).
-
-I hope the add the following features as I go:
+I am writing this as part of learning to use common-lisp more frequently. I hope the add the following features as I go:
 
 1. Basic user authentication. Only authenticated users can add a bookmark.
 2. Tags to qualify and filter the bookmarks.
@@ -17,3 +15,8 @@ I hope the add the following features as I go:
 10. More logging. Example configuration to use [log4cl](https://github.com/sharplispers/log4cl) instead of default [verbose](https://shinmera.github.io/verbose/).
 
 For css, I use tailwindcss. I'll share the tailwind sources soon. It is pretty much vanilla tailwind compile.
+
+## 31 Oct 2019
+
+- Removed all framework dependence. I plan to try vanilla hunchentoot interface.
+- Code is back by a few days in the sense it doesn't serve up a page now.
