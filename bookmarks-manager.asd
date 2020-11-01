@@ -2,4 +2,4 @@
 (asdf:defsystem #:bookmarks-manager
   :components ((:file "bookmarks")
 	       (:file "database"))
-  :depends-on (:postmodern))
+  :depends-on (:postmodern :hunchentoot :spinneret))
