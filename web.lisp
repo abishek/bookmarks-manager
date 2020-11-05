@@ -1,29 +1,18 @@
-(in-package #:bookmarks-manager
-	    (:use :spinneret :hunchentoot))
+(in-package #:bookmarks-manager)
+
+(setf hunchentoot:*dispatch-table*
+      `(hunchentoot:dispatch-easy-handlers
+	,(hunchentoot:create-folder-dispatcher-and-handler "/static/" "static/")))
 
 (defun start-server ()
-  (hunchentoot:start (setf *acceptor*
+  (hunchentoot:start (setf hunchentoot:*acceptor*
 			   (make-instance 'hunchentoot:easy-acceptor :port 8888))))
 
 (defun stop-server ()
-  (when *acceptor*
-    (when hunchentoot:started-p *acceptor*
-	  (hunchentoot:stop *acceptor))))
-
-(defun index-html ()
-  (spinneret:with-html
-    (:doctype)
-    (:html
-     (:head
-      (:title "Bookmarks Manager"))
-     (:body
-      (:header
-       (:h1 "List of bookmarks"))
-      (:section
-       (:h4 "A table will appear here."))
-      (:footer (:p "Its all open."))))))
+  (when hunchentoot:*acceptor*
+    (when (hunchentoot:started-p hunchentoot:*acceptor*)
+	  (hunchentoot:stop hunchentoot:*acceptor*))))
 
 (hunchentoot:define-easy-handler (index :uri "/") ()
-  (setf (hunchentoot:content-type*) "text/json")
-  (hunchentoot:with-html-output-to-string (*standard-output*)
-    (index-html)))
+  (setf (hunchentoot:content-type*) "text/html")
+  (index-html))

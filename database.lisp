@@ -47,4 +47,4 @@
 (defun get-all-bookmarks ()
   "Fetch a list of bookmarks from the table."
   (with-connection connection-settings
-    (query (:select '* :from 'bookmarks))))
+    (query (:select '* :from 'bookmarks) :plists)))

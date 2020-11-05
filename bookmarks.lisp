@@ -1,5 +1,5 @@
 (defpackage :bookmarks-manager
-  (:use :cl :postmodern))
+  (:use :cl :postmodern :hunchentoot :djula))
 
 (in-package #:bookmarks-manager)
 
