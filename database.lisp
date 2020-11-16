@@ -42,9 +42,20 @@
 (defun fetch-bookmark (id)
   "Fetch a bookmark given its id from the database."
     (with-connection connection-settings
-      (query (:select '* :from 'bookmarks :where (:= 'id id)))))
+      (query (:select '* :from 'bookmarks :where (:= 'id id)) :plist)))
 
 (defun get-all-bookmarks ()
   "Fetch a list of bookmarks from the table."
   (with-connection connection-settings
     (query (:select '* :from 'bookmarks) :plists)))
+
+(defun get-tags-for-bookmark (id)
+  "Fetch all tags associated with a bookmark given its id."
+  (with-connection connection-settings
+    (query (:select '* :from 'tags :where (:in 'id (:select 'tag_id :from 'bookmarktags :where (:= 'bookmark_id id)))) :plists)))
+
+(defun get-all-bookmarks-with-tags ()
+  "Fetch all bookmarks in the system along with their tags."
+  (let ((all-bookmarks (get-all-bookmarks)))
+    (loop for bookmark in all-bookmarks
+	  collect (list :bookmark bookmark :tags (get-tags-for-bookmark (getf bookmark :id))))))
