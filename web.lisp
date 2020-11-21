@@ -13,6 +13,14 @@
     (when (hunchentoot:started-p hunchentoot:*acceptor*)
 	  (hunchentoot:stop hunchentoot:*acceptor*))))
 
-(hunchentoot:define-easy-handler (index :uri "/") ()
+(hunchentoot:define-easy-handler (list-bookmarks :uri "/") ()
   (setf (hunchentoot:content-type*) "text/html")
   (index-html))
+
+(hunchentoot:define-easy-handler (add-bookmark :uri "/add") ()
+  (setf (hunchentoot:content-type*) "text/html")
+  (add-html))
+
+(hunchentoot:define-easy-handler (find-bookmark :uri "/search") ()
+  (setf (hunchentoot:content-type*) "text/html")
+  (search-html))

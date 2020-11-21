@@ -1,39 +1,28 @@
-<!doctype html>
-<html class="no-js" lang="" xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-        <title>{% block title %}Bookmarks Manager{% endblock %}</title>
-
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="stylesheet" href="/static/styles.css"/>
-    </head>
-    <body class="bg-gray-100">
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">
-            You are using an <strong>outdated</strong> browser. Please
-            <a href="http://browsehappy.com/">upgrade your browser</a> to improve
-            your experience.
-            </p>
-        <![endif]-->
-        <nav class="flex items-center justify-between flex-wrap bg-indigo-600 p-6">
-            <div class="flex items-center flex-shrink-0 text-white mr-6">
-                <img class="h-14 mx-auto text-indigo-900" src="/static/images/logo.svg"  alt="Bookmarks Manager">
-            </div>
-            <div class="flex-grow"></div>
-            <div class="flex lg:flex lg:items-center lg:w-auto">
-                <div class="text-sm lg:flex-grow">
-                    <a href="/" class="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">Home</a>
-                </div>
-                <div class="text-sm lg:flex-grow">
-                    <a href="/add" class="block mt-4 lg:inline-block lg:mt-0 text-indigo-200 hover:text-white mr-4">Add Bookmark</a>
-                </div>
-            </div>
-        </nav>
-
-        {% block content %} {% endblock %}
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bookmarks Manager{% endblock %}</title>
+    <link rel="stylesheet" href="/static/styles.css"/>
+  </head>
+  <body class="bg-white">
+    <header>
+      <div class="flex justify-between p-4 mt-3 align-middle border-b-2 border-indigo-400 lg:container lg:mx-auto">
+        <div id="branding">
+          <h1 class="text-2xl font-semibold tracking-wide text-indigo-900 uppercase">
+            <a href="/">Bookmarks Manager</a>
+          </h1>
+        </div>
+        <div id="menu">
+          <ul class="flex m-1 align-middle justify-evenly">
+	    <!-- TODO: Fix active link CSS based on page -->
+            <li class="px-2 hover:text-indigo-600"><a href="/add">Add</a></li>
+            <li class="px-2 hover:text-indigo-600"><a href="/search">Search</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    {% block content %} {% endblock %}
+  </body>
 </html>

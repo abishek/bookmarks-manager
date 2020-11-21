@@ -1,8 +1,23 @@
 {% extends "base.html" %}
 
-{% block title %}Bookmarks Manager - List Bookmarks {% endblock %}
+{% block title %}
+Bookmarks Manager - Search
+{% endblock %}
 
 {% block content %}
+<section id="form">
+  <div class="flex justify-around p-4 mt-3 align-middle lg:container lg:mx-auto ">
+    <form submit="/search" method="POST" class="flex justify-between w-full align-middle">
+      <div id="form-item" class="flex-grow mx-2 my-2">
+        <input placeholder="search" class="block w-full px-4 py-2 mb-3 border border-indigo-400 rounded appearance-none bg-grey-lighter text-grey-darker" type="url" name="search" id="search" value="search"/>
+      </div>
+      <div id="form-item" class="my-2 align-middle justify-self-center">
+        <button type="submit" class="px-2 py-2 text-white bg-indigo-600 border-2 border-indigo-800 rounded hover:text-indigo-800 hover:bg-white">Search</button>
+      </div>
+    </form>
+  </div>
+</section>
+
 <section id="list">
   {% ifequal count 0 %}
   <div id="bookmark" class="flex flex-col p-4 mt-3 align-middle border lg:container lg:mx-auto">
@@ -32,4 +47,5 @@
   {% endfor %}
   {% endifequal %}
 </section>
+
 {% endblock %}
