@@ -16,11 +16,6 @@
   (with-connection connection-settings
     (query (:insert-into 'bookmarks :set 'note note 'bookmark url 'created (:current-timestamp) :returning 'id))))
 
-(defun update-or-insert-bookmark-and-return-id (url note &optional (id nil))
-  (if id
-      (update-bookmark-and-return-id id url note)
-      (insert-bookmark-and-return-id url note)))
-
 (defun store-bookmark (url &optional (note nil) (id nil))
   "Save this data to the database."
   (update-or-insert-bookmark-and-return-id id url note))
@@ -34,3 +29,8 @@
   "Fetch a list of bookmarks from the table."
   (with-connection connection-settings
     (query (:select '* :from 'bookmarks) :plists)))
+
+(defun remove-boomkark (id)
+  "Delete a bookmark from the database."
+  (with-connection connection-settings
+    (query (:delete-from 'bookmarks :where (:= 'id id)))))

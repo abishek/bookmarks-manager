@@ -7,7 +7,7 @@
 {% block content %}
 <section id="form">
   <div class="flex justify-around p-4 mt-3 align-middle lg:container lg:mx-auto ">
-    <form submit="/update" method="POST" class="w-2/3">
+    <form action="/save" method="POST" class="w-2/3">
       <div id="form-item" class="grid grid-cols-1 my-2">
         <div id="form-label"><label class="block mb-2 text-xs font-bold tracking-wide uppercase text-grey-darker" for="bookmark">URL</label></div>
         <div id="form-element" class="flex-grow">
@@ -17,10 +17,12 @@
       <div id="form-item" class="grid grid-cols-1 my-2">
         <div id="form-label"><label class="block mb-2 text-xs font-bold tracking-wide uppercase text-grey-darker" for="note">Notes</label></div>
         <div id="form-element" class="flex-grow">
-          <textarea class="block w-full px-4 py-3 mb-3 border border-indigo-400 rounded appearance-none bg-grey-lighter text-grey-darker" rows="4" name="notes" id="notes">{{bookmark.note}}</textarea>
+          <textarea class="block w-full px-4 py-3 mb-3 border border-indigo-400 rounded appearance-none bg-grey-lighter text-grey-darker" rows="4" name="note" id="note">{{bookmark.note}}</textarea>
         </div>
       </div>
+      {% if bookmark.id %}
       <input type="hidden" value="{{bookmark.id}}" name="id" id="id"/>
+      {% endif %}
       <div id="form-item" class="w-full my-2 text-center">
         <button type="submit" class="px-2 py-2 text-white bg-indigo-600 border-2 border-indigo-800 rounded hover:text-indigo-800 hover:bg-white">Save</button>
       </div>

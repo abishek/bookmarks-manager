@@ -29,4 +29,25 @@
     for tuple in (construct-position-tuples (find-all-delims-in-string csv-string))
     collect (string-trim '(#\Space) (subseq csv-string (1+ (car tuple)) (cdr tuple)))))
 
+(defun update-or-insert-bookmark-and-return-id (url note &optional (id nil))
+  (if id
+      (update-bookmark-and-return-id id url note)
+      (insert-bookmark-and-return-id url note)))
   
+(defun save-bookmark ()
+  (let ((bookmark (parameter "bookmark"))
+	(note (parameter "note"))
+	(id (parameter "id")))
+    (format t "bookmark: ~a~%" bookmark)
+    (format t "note: ~a~%" note)
+    (format t "id: ~a~%" id)
+    (update-or-insert-bookmark-and-return-id bookmark note id)
+    (redirect-to-list)))
+
+(defun update-bookmark ()
+  (edit-bookmark (fetch-bookmark (get-id-from-uri))))
+
+(defun delete-bookmark ()
+  (progn
+    (remove-boomkark (get-id-from-uri))
+    (redirect-to-list)))

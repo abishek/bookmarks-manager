@@ -6,14 +6,18 @@
 (defparameter +search.html+ (djula:compile-template* "search.html"))
 
 
-(defun index-html ()
+(defun list-bookmarks ()
   (let* ((bookmarks (get-all-bookmarks))
          (count (length bookmarks)))
     (djula:render-template* +list.html+ nil :bookmarks bookmarks :count count)))
 
-(defun add-html ()
+(defun new-bookmark ()
   (djula:render-template* +add_or_edit.html+ nil))
 
-(defun search-html ()
-  (djula:render-template* +search.html+ nil))
+(defun edit-bookmark (bookmark)
+  (djula:render-template* +add_or_edit.html+ nil :bookmark bookmark))
+
+(defun search-html (&optional results search-term)
+  (let ((count (length results)))
+    (djula:render-template* +search.html+ nil :bookmarks results :count count :search search-term)))
 

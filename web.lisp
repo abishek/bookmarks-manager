@@ -1,9 +1,17 @@
 (in-package #:bookmarks-manager)
 
-(setf hunchentoot:*dispatch-table*
-      `(hunchentoot:dispatch-easy-handlers
-	,(hunchentoot:create-folder-dispatcher-and-handler "/static/" "static/")))
-
+(setq hunchentoot:*dispatch-table*
+      (list
+       (create-regex-dispatcher "^/$" 'redirect-to-list)
+       (create-regex-dispatcher "^/list$" 'list-bookmarks)
+       (create-regex-dispatcher "^/new" 'new-bookmark)
+       (create-regex-dispatcher "^/edit/[0-9]+$" 'update-bookmark)
+       (create-regex-dispatcher "^/save$" 'save-bookmark)
+       (create-regex-dispatcher "^/delete/[0-9]+$" 'delete-bookmark)
+       (create-regex-dispatcher "^/search$" 'search-bookmarks)
+       (create-folder-dispatcher-and-handler "/static/" "static/")))
+					    
+       
 (defun start-server ()
   (hunchentoot:start (setf hunchentoot:*acceptor*
 			   (make-instance 'hunchentoot:easy-acceptor :port 8888))))
@@ -13,14 +21,9 @@
     (when (hunchentoot:started-p hunchentoot:*acceptor*)
 	  (hunchentoot:stop hunchentoot:*acceptor*))))
 
-(hunchentoot:define-easy-handler (list-bookmarks :uri "/") ()
-  (setf (hunchentoot:content-type*) "text/html")
-  (index-html))
+(defun redirect-to-list ()
+  (redirect "/list"))
 
-(hunchentoot:define-easy-handler (add-bookmark :uri "/add") ()
-  (setf (hunchentoot:content-type*) "text/html")
-  (add-html))
-
-(hunchentoot:define-easy-handler (find-bookmark :uri "/search") ()
-  (setf (hunchentoot:content-type*) "text/html")
-  (search-html))
+(defun get-id-from-uri ()
+  "Returns the ID from the URI request."
+  (car (cl-ppcre:all-matches-as-strings "[0-9]+" (request-uri *request*))))
